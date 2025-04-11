@@ -17,3 +17,8 @@ In this step, I made a function called renderGameList() to show all the saved ga
 
 At the end, I made sure this function runs when the page loads, by using DOMContentLoaded. That way, the games show up as soon as the app starts.
 
+Step 6:
+For the next step i want to integrate a interactive slider, as well as a play count. To do this, i made some changes to the renderGameList function, and added a button class in my innerHTML container. I then made an event listener to the play button. When clicked, it increments the playCount property of  the game object and updates the displayed play count in the html, i then saveGame in order to store the updated values. For the rating slider, i added another event listener to update the personalRating of the game object. I used the current value of the slider, and convert it to an integer with parseInt. After saving, i added an error message, which helped me with error solving.
+
+Step 7:
+
