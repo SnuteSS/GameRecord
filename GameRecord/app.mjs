@@ -1,5 +1,7 @@
 import Game from './models/game.js';
 
+let games = []; 
+
 function saveGame(game) {
     const key = `game_${game.title}`;
     localStorage.setItem(key, JSON.stringify(game));
@@ -38,10 +40,29 @@ function importGamesFromJSON(jsonString) {
 function renderGameList() {
     const gameList = document.getElementById('game-list');
     gameList.innerHTML = '';
+
     games.forEach(game => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${game.title} - Rating: ${game.personalRating}`;
-        gameList.appendChild(listItem);
+        const container = document.createElement('div');
+        container.className = 'game-card';
+       
+        container.innerHTML = `
+            <>h3${game.title}</h3>
+            <p><strong>Designer:</strong> ${game.designer}</p>
+            <p><strong>Players:</strong> ${game.players}</p>
+            <p><strong>Time:</strong> ${game.time}</p>
+            <p><strong>Difficulty:</strong> ${game.difficulty}</p>
+            <p><strong>Play Count:</strong> ${game.playCount}</p>
+            <p><a href ="${game.url}" target="_blank">BoardGameGeek Page </a></p>
+
+            <label>
+                Rating: <span>${game.personalRating}</span>
+                <input type="range" min="0" max="10" value="${game.personalRating}" disabled />
+            <label>
+
+            <button disable>Edit</button>
+        `;
+        
+        gameList.appendChild(container);
     });
 }
 
@@ -50,7 +71,7 @@ document.getElementById('importSource').addEventListener('change', event => {
     if (file && file.type === 'application/json') {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const jsonData = e.target.results;
+            const jsonData = e.target.result;
             importGamesFromJSON(jsonData);
         };
         reader.readAsText(file);
@@ -60,6 +81,6 @@ document.getElementById('importSource').addEventListener('change', event => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    games = getAllGames();
+    games = loadAllGames();
     renderGameList();
 });
