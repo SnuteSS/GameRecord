@@ -1,3 +1,5 @@
+README
+
 (I forgot to explain on the readme what i've done so far, so from this point i will update it for each commit onwards)
 
 Step 1:
@@ -14,7 +16,6 @@ In step 4, i had to add a file reader to my browser. To do this, i first added a
 
 Step 5:
 In this step, I made a function called renderGameList() to show all the saved games on the page. It grabs the game-list element, clears it, and then loops through the games array. For each game, it creates a card with the title, designer, player count, difficulty, and a link to the game's page. It also includes a disabled rating slider and a button (not working yet). I had an issue with the html, as it only showed one board game from the example json file. I realized that the issue was with line one of the pieces of code, where i had written results instead of result, which resulted in an undefined error. After i changed it, the list works as intended.
-
 At the end, I made sure this function runs when the page loads, by using DOMContentLoaded. That way, the games show up as soon as the app starts.
 
 Step 6:
@@ -27,3 +28,7 @@ Step 9:
 Adding a delete button to the list should be simple enough. First, I updated the HTML layout by including a "Delete" button inside each game card in renderGameList(). Then in app.mjs, I created a new deleteGame() function that uses localStorage.removeItem() to remove the game based on its title key. Afterwards, I used querySelector to find the delete button for each game, and added an addEventListener that triggers deleteGame() when clicked. After deleting the game, I called loadAllGames() again to refresh the global games array, and ran renderGameList() to update the interface.
 
 Step 10:
+In this step, I added sorting functionality to the game list. I started by creating a <select> dropdown in index.html below the game list title, as i thought it made most sense to put it there, with all the required sort options like player count, personal rating, difficulty, and play count. In app.mjs, i added a line of code beneath let games = []; to keep track of the current sorting option selected by the user. It's set to default, which means that no sorting is applied when the page loads initially. Inside the renderGameList function, i used a switch statement to copy the games array based on the selected value. Meaning, if the user picks players, it should sort the number of players in ascending order. Difficulty is sorted alphabetically, and ratings and play counts are put as descending order.
+I also added an event listener to the dropdown so that when the user changes the sort option, currentSort is updated and renderGameList() is re-run to display the newly sorted list.
+
+At the end, i wanted to make it look more stylish, but im still not that good at css, so i looked up on google to get tips and inspiration. I added some colors that i thought could look nice, made the text boxes rounded and make the webpage easier to read. In the corner of the webpage i added a cool picture with one of the greatest boardgames of all time :)

@@ -1,6 +1,7 @@
 import Game from './models/game.js';
 
 let games = []; 
+let currentSort = 'default';
 
 function saveGame(game) {
     const key = `game_${game.title}`;
@@ -43,7 +44,25 @@ function renderGameList() {
     const gameList = document.getElementById('game-list');
     gameList.innerHTML = '';
 
-    games.forEach(game => {
+    let sortedGames = [...games];
+    switch (currentSort) {
+        case 'players':
+            sortedGames.sort((a, b) => a.players - b.players);
+            break;
+        case 'personalRating':
+            sortedGames.sort((a, b) => b.personalRating - a.personalRating);
+            break;
+        case 'difficulty':
+            sortedGames.sort((a, b) => a.difficulty.localeCompare(b.difficulty));
+            break;
+        case 'playCount':
+            sortedGames.sort((a, b) => b.playCount - a.playCount);
+            break;
+        default:
+            break;
+    }
+
+    sortedGames.forEach(game => {
         const container = document.createElement('div');
         container.className = 'game-card';
        
@@ -139,6 +158,11 @@ document.getElementById('importSource').addEventListener('change', event => {
 
 document.addEventListener('DOMContentLoaded', () => {
     games = loadAllGames();
+    renderGameList();
+});
+
+document.getElementById('sortSelect').addEventListener('change', (e) => {
+    currentSort = e.target.value;
     renderGameList();
 });
 
