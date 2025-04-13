@@ -63,7 +63,7 @@ function renderGameList() {
                 <input type="range" min="0" max="10" value="${game.personalRating}" class="rating-slider"/>
             <label>
 
-            <button disabled>Edit</button>
+            <button class="delete-button">Delete</button>
         `;
         
         const playButton = container.querySelector('.play-button');
@@ -79,6 +79,16 @@ function renderGameList() {
             container.querySelector('.rating-value').textContent = game.personalRating;
             saveGame(game);
         });
+
+        const deleteButton = container.querySelector('.delete-button');
+        if (deleteButton) {
+            deleteButton.addEventListener('click', () => {
+             if (confirm(`Are you sure you want to delete "${game.title}"?`)) {
+                deleteGame(game.title);
+                renderGameList(); 
+        }
+    });
+}
         
         gameList.appendChild(container);
     });
@@ -131,3 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
     games = loadAllGames();
     renderGameList();
 });
+
+function deleteGame(title) {
+    const key = `game_${title}`;
+    localStorage.removeItem(key);
+    games = games.filter(game => game.title !== title);
+}
