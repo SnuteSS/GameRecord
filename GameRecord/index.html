@@ -11,6 +11,35 @@
     <h2>Import Games</h2>
     <input type="file" id="importSource" accept=".json" />
 
+    <h2>Add a New Game</h2>
+    <form id="add-game-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" required />
+        
+        <label for="designer">Designer:</label>
+        <input type="text" id="designer" required />
+        
+        <label for="players">Players:</label>
+        <input type="number" id="players" required />
+        
+        <label for="time">Time (minutes):</label>
+        <input type="number" id="time" required />
+        
+        <label for="difficulty">Difficulty:</label>
+        <input type="text" id="difficulty" required />
+        
+        <label for="url">URL:</label>
+        <input type="url" id="url" required />
+        
+        <label for="rating">Personal Rating:</label>
+        <input type="range" id="rating" min="0" max="10" value="5" />
+
+        <label for="playCount">Play Count:</label>
+        <input type="number" id="playCount" value="0" />
+
+        <button type="submit">Add Game</button>
+    </form>
+
     <h2>Game List</h2>
     <div id="game-list"></div>
 

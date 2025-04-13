@@ -5,18 +5,19 @@ let games = [];
 function saveGame(game) {
     const key = `game_${game.title}`;
     localStorage.setItem(key, JSON.stringify(game));
+    games.push(game);
 }
 
 function loadAllGames() {
-    const games = []; 
+    const gamesFromStorage = []; 
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key.startsWith("game_")) {
             const data = JSON.parse(localStorage.getItem(key));
-            games.push(new Game(data));
+            gamesFromStorage.push(new Game(data));
         }
     }
-    return games;
+    return gamesFromStorage;
 }
 
 function exportGamesToJSON() {
@@ -31,6 +32,7 @@ function importGamesFromJSON(jsonString) {
             const game = new Game(gameData);
             saveGame(game);
         });
+        renderGameList();
     }   catch (err) {
         console.error("Invalid JSON input", err);
     }
@@ -64,38 +66,52 @@ function renderGameList() {
             <button disabled>Edit</button>
         `;
         
-        console.log(container.innerHTML);
-
         const playButton = container.querySelector('.play-button');
-        if (playButton) {
-            playButton.addEventListener('click', () => {
-                const playCountElement = container.querySelector('.play-count');
-                if (playCountElement) {
-                    game.playCount += 1;
-                    playCountElement.textContent = game.playCount;
-                    saveGame(game);
-                } else {
-                    console.error("Play count element not found!");
-                }
-            });
-        } else {
-            console.error("Play button not found!");
-        }
+        playButton.addEventListener('click', () => {
+            game.playCount += 1;
+            container.querySelector('.play-count').textContent = game.playCount;
+            saveGame(game); 
+        });
 
         const ratingSlider = container.querySelector('.rating-slider');
-        if (ratingSlider) {
-            ratingSlider.addEventListener('input', (e) => {
-                game.personalRating = parseInt(e.target.value);
-                container.querySelector('.rating-value').textContent = game.personalRating; 
-                saveGame(game);
-            });
-        } else {
-            console.error("Rating slider not found!");
-        }
+        ratingSlider.addEventListener('input', (e) => {
+            game.personalRating = parseInt(e.target.value);
+            container.querySelector('.rating-value').textContent = game.personalRating;
+            saveGame(game);
+        });
         
         gameList.appendChild(container);
     });
 }
+
+document.getElementById('add-game-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const title = document.getElementById('title').value;
+    const designer = document.getElementById('designer').value;
+    const players = parseInt(document.getElementById('players').value);
+    const time = parseInt(document.getElementById('time').value);
+    const difficulty = document.getElementById('difficulty').value;
+    const url = document.getElementById('url').value;
+    const personalRating = parseInt(document.getElementById('rating').value);
+    const playCount = parseInt(document.getElementById('playCount').value);
+
+    const newGame = new Game({
+        title,
+        designer,
+        players,
+        time,
+        difficulty,
+        url,
+        personalRating,
+        playCount
+    });
+
+    saveGame(newGame);
+    renderGameList();
+    
+    document.getElementById('add-game-form').reset();
+});
 
 document.getElementById('importSource').addEventListener('change', event => {
     const file = event.target.files[0];
