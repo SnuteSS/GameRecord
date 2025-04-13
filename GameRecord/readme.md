@@ -20,8 +20,8 @@ At the end, I made sure this function runs when the page loads, by using DOMCont
 Step 6:
 For the next step i want to integrate a interactive slider, as well as a play count. To do this, i made some changes to the renderGameList function, and added a button class in my innerHTML container. I then made an event listener to the play button. When clicked, it increments the playCount property of  the game object and updates the displayed play count in the html, i then saveGame in order to store the updated values. For the rating slider, i added another event listener to update the personalRating of the game object. I used the current value of the slider, and convert it to an integer with parseInt. After saving, i added an error message, which helped me with error solving.
 
-Step 7:
+Step 7 and 8:
 Realized that i had to revert some of the code i wrote in step 5, as the game array was populated globally, but it wasn't updated dynamically in some parts. Therefore i had to go back, and change a lot of the code. I started by creating a new <form> element in index.html, including input fields for all the properties needed to create a game object: title, designer, players, time, difficulty, URL, personal rating, and play count. In app.mjs, I added an event listener to handle the form submission. When the user submits the form, it collects all input values using querySelector, and creates a new Game object using the constructor. This object is then pushed to the global games array, saved to localStorage using saveGame(), and displayed using renderGameList(). Finally, I used form.reset() to clear the inputs after each submission. This makes sure the form is ready for the next game input without reloading the page. 
 
-Step 8:
+Step 9:
 
